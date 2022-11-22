@@ -68,4 +68,4 @@ npm run build
 
 群名片七天有效，如果需要请加作者好友，然后拉进交流群
 
-<img src="https://gitee.com/littledokey/poetize-vue2/blob/master/Sara.jpg" width="146.6" height="200" alt="作者名片"/>
+![个人名片](Sara.jpg)
