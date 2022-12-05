@@ -15,7 +15,7 @@ export default {
   jinrishici: "https://v1.jinrishici.com/all.json",
   random_image: "https://s1.ax1x.com/2022/12/04/zsKgDs.jpg?",
   //前后端定义的密钥，AES使用16位
-  cryptojs_key: "$$$$密码加密传输",
+  cryptojs_key: "aoligeimeimaobin",
   qiniuUrl: "https://upload.qiniup.com",
   qiniuDownload: "$$$$七牛云下载地址",
 
