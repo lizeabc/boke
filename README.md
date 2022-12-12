@@ -58,6 +58,10 @@ npm run build
 
 替换成自己自定义的内容，因为Https无法跨域，这些内容需要用自己的。
 
+- 博客：https://gitee.com/littledokey/poetize-vue2.git
+- 聊天室：https://gitee.com/littledokey/poetize-im-vue3.git
+- 后端：https://gitee.com/littledokey/poetize.git
+
 ## 欢迎进群
 1. 交流（摸鱼）
 2. 安装部署：互相帮助，争取每个人都零基础拥有自己的个人网站
@@ -73,4 +77,5 @@ npm run build
 ## 欢迎关注作者B站
 B站搜索用户【寻国记】，博客介绍与搭建教程。
 
-【挑战最美博客！个人博客网站食用教程。这是一个 SpringBoot 与 Vue 的产物，在此公开，一起学习，共同成长。】 https://www.bilibili.com/video/BV1eM41167Ks/?share_source=copy_web
+【挑战最美博客！个人博客网站食用教程。这是一个 SpringBoot 与 Vue 的产物，在此公开，一起学习，共同成长。】
+https://www.bilibili.com/video/BV1eM41167Ks/?share_source=copy_web
