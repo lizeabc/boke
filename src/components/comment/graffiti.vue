@@ -294,14 +294,14 @@
         let fd = new FormData();
         fd.append("file", obj);
         fd.append("token", this.token);
-        fd.append("key", "graffiti" + "/" + this.$store.state.currentUser.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.currentUser.id + new Date().getTime());
+        fd.append("key", "graffiti" + "/" + this.$store.state.currentUser.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.currentUser.id + new Date().getTime() + Math.floor(Math.random() * 1000) + ".png");
 
         this.$http.uploadQiniu(this.$constant.qiniuUrl, fd)
           .then((res) => {
             if (!this.$common.isEmpty(res.key)) {
               this.clearContext();
               let url = this.$constant.qiniuDownload + res.key;
-              this.$common.saveResource(this, "graffiti", url);
+              this.$common.saveResource(this, "graffiti", url, obj.size, obj.type);
               let img = "<你画我猜," + url + ">";
               this.$emit("addGraffitiComment", img);
             }

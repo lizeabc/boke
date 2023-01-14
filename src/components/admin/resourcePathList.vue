@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="handle-box">
-        <el-select v-model="pagination.resourceType" placeholder="资源路径类型" class="handle-select mrb10">
+        <el-select clearable v-model="pagination.resourceType" placeholder="资源路径类型" class="handle-select mrb10">
           <el-option
             v-for="(item, i) in resourceTypes"
             :key="i"
@@ -10,7 +10,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select v-model="pagination.resourceStatus" placeholder="状态" class="handle-select mrb10">
+        <el-select clearable v-model="pagination.status" placeholder="状态" class="handle-select mrb10">
           <el-option key="1" label="启用" :value="true"></el-option>
           <el-option key="2" label="禁用" :value="false"></el-option>
         </el-select>
@@ -20,6 +20,13 @@
       <el-table :data="resourcePaths" border class="table" header-cell-class-name="table-header">
         <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
         <el-table-column prop="title" label="标题" align="center"></el-table-column>
+        <el-table-column prop="introduction" label="简介" align="center"></el-table-column>
+        <el-table-column label="封面" align="center">
+          <template slot-scope="scope">
+            <el-image lazy :preview-src-list="[scope.row.cover]" class="table-td-thumb" :src="scope.row.cover"
+                      fit="cover"></el-image>
+          </template>
+        </el-table-column>
         <el-table-column prop="url" label="链接" align="center"></el-table-column>
 
         <el-table-column prop="type" label="资源类型" align="center"></el-table-column>
@@ -32,16 +39,8 @@
             <el-switch @click.native="changeStatus(scope.row)" v-model="scope.row.status"></el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="封面" align="center">
-          <template slot-scope="scope">
-            <el-image :preview-src-list="[scope.row.cover]" class="table-td-thumb" :src="scope.row.cover"
-                      fit="cover"></el-image>
-          </template>
-        </el-table-column>
 
-        <el-table-column prop="introduction" label="简介" align="center"></el-table-column>
         <el-table-column prop="remark" label="备注" align="center"></el-table-column>
-
         <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
@@ -75,6 +74,18 @@
       </div>
     </el-dialog>
 
+    <el-dialog title="文件"
+               :visible.sync="uploadDialog"
+               width="25%"
+               :append-to-body="true"
+               destroy-on-close
+               center>
+      <div>
+        <uploadPicture :isAdmin="true" :prefix="resourcePath.type + 'Url'" @addPicture="addFile" :maxSize="10"
+                       :maxNumber="1" :listType="'text'" :accept="'image/*, video/*, audio/*'"></uploadPicture>
+      </div>
+    </el-dialog>
+
     <el-dialog title="资源路径"
                :visible.sync="addResourcePathDialog"
                width="50%"
@@ -85,13 +96,31 @@
       <div>
         <div>
           <div style="margin-bottom: 5px">标题：</div>
-          <el-input v-model="resourcePath.title"></el-input>
+          <el-input maxlength="60" v-model="resourcePath.title"></el-input>
           <div style="margin-top: 10px;margin-bottom: 5px">简介：</div>
-          <el-input v-model="resourcePath.introduction"></el-input>
+          <el-input maxlength="1000" v-model="resourcePath.introduction"></el-input>
           <div style="margin-top: 10px;margin-bottom: 5px">封面：</div>
-          <el-input v-model="resourcePath.cover"></el-input>
+          <div style="display: flex">
+            <el-input v-model="resourcePath.cover"></el-input>
+            <div style="width: 66px;margin: 3.5px 0 0 10px">
+              <proButton :info="'上传封面'"
+                         @click.native="addResourcePathCover()"
+                         :before="$constant.before_color_1"
+                         :after="$constant.after_color_1">
+              </proButton>
+            </div>
+          </div>
           <div style="margin-top: 10px;margin-bottom: 5px">链接：</div>
-          <el-input v-model="resourcePath.url"></el-input>
+          <div style="display: flex">
+            <el-input v-model="resourcePath.url"></el-input>
+            <div style="width: 66px;margin: 3.5px 0 0 10px">
+              <proButton :info="'上传文件'"
+                         @click.native="addResourcePathUrl()"
+                         :before="$constant.before_color_1"
+                         :after="$constant.after_color_1">
+              </proButton>
+            </div>
+          </div>
           <div style="margin-top: 10px;margin-bottom: 5px">资源类型：</div>
           <el-select v-model="resourcePath.type" placeholder="资源路径类型" class="handle-select mrb10">
             <el-option
@@ -102,15 +131,9 @@
             </el-option>
           </el-select>
           <div style="margin-top: 10px;margin-bottom: 5px">备注：</div>
-          <el-input v-model="resourcePath.remark" type="textarea"></el-input>
+          <el-input maxlength="1000" v-model="resourcePath.remark" type="textarea"></el-input>
         </div>
         <div style="display: flex;margin-top: 30px" class="myCenter">
-          <proButton :info="'上传封面'"
-                     @click.native="addResourcePathCover()"
-                     :before="$constant.before_color_1"
-                     :after="$constant.after_color_1"
-                     style="margin-right: 20px">
-          </proButton>
           <proButton :info="'提交'"
                      @click.native="addResourcePath()"
                      :before="$constant.before_color_2"
@@ -134,16 +157,21 @@
     },
     data() {
       return {
-        resourceTypes: [{label: "友链", value: "friendUrl"}],
+        resourceTypes: [
+          {label: "友链", value: "friendUrl"},
+          {label: "恋爱图片", value: "lovePhoto"},
+          {label: "鬼畜", value: "funny"}
+        ],
         pagination: {
           current: 1,
           size: 10,
           total: 0,
           resourceType: "",
-          resourceStatus: null
+          status: null
         },
         resourcePaths: [],
         coverDialog: false,
+        uploadDialog: false,
         addResourcePathDialog: false,
         isUpdate: false,
         resourcePath: {
@@ -172,6 +200,23 @@
       addPicture(res) {
         this.resourcePath.cover = res;
         this.coverDialog = false;
+      },
+      addFile(res) {
+        this.resourcePath.url = res;
+        this.uploadDialog = false;
+      },
+      addResourcePathUrl() {
+        if (this.addResourcePathDialog === false) {
+          return;
+        }
+        if (this.$common.isEmpty(this.resourcePath.type)) {
+          this.$message({
+            message: "请选择资源类型！",
+            type: "error"
+          });
+          return;
+        }
+        this.uploadDialog = true;
       },
       addResourcePathCover() {
         if (this.addResourcePathDialog === false) {

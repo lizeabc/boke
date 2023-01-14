@@ -20,7 +20,7 @@
     </div>
     <!-- 分类 -->
     <div class="shadow-box background-opacity wow"
-         style="padding: 25px 25px 5px;border-radius: 10px;animation: zoomIn 0.8s ease-in-out">
+         style="padding: 25px 25px 5px;border-radius: 10px;animation: hideToShow 1s ease-in-out">
       <div class="card-content2-title">
         <i class="el-icon-folder-opened card-content2-icon"></i>
         <span>分类</span>
@@ -36,7 +36,7 @@
     </div>
     <!-- 推荐文章 -->
     <div v-if="!$common.isEmpty(recommendArticles)"
-         style="padding: 25px;border-radius: 10px;margin-top: 40px;animation: zoomIn 0.8s ease-in-out"
+         style="padding: 25px;border-radius: 10px;margin-top: 40px;animation: hideToShow 1s ease-in-out"
          class="shadow-box background-opacity wow">
       <div class="card-content2-title">
         <i class="el-icon-reading card-content2-icon"></i>
@@ -47,7 +47,7 @@
            @click="$router.push({path: '/article', query: {id: article.id}})">
         <div class="aside-post-detail">
           <div class="aside-post-image">
-            <el-image class="my-el-image" :src="article.articleCover" fit="cover">
+            <el-image lazy class="my-el-image" :src="article.articleCover" fit="cover">
               <div slot="error" class="image-slot">
                 <div class="error-aside-image">
                   {{article.username}}

@@ -29,6 +29,10 @@ const routes = [
       name: "weiYan",
       component: () => import('../components/weiYan')
     }, {
+      path: "/love",
+      name: "love",
+      component: () => import('../components/love')
+    }, {
       path: "/message",
       name: "message",
       component: () => import('../components/message')
@@ -36,6 +40,10 @@ const routes = [
       path: "/friend",
       name: "friend",
       component: () => import('../components/friend')
+    }, {
+      path: "/funny",
+      name: "funny",
+      component: () => import('../components/funny')
     }, {
       path: "/about",
       name: "about",
@@ -91,6 +99,10 @@ const routes = [
       path: '/resourceList',
       name: 'resourceList',
       component: () => import('../components/admin/resourceList')
+    }, {
+      path: '/loveList',
+      name: 'loveList',
+      component: () => import('../components/admin/loveList')
     }, {
       path: '/resourcePathList',
       name: 'resourcePathList',

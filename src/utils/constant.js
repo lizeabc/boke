@@ -11,6 +11,7 @@ export default {
   cdnPath: "https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/",
   waifuPath: "/webInfo/getWaifuJson",
   hitokoto: "https://v1.hitokoto.cn",
+  shehui: "https://api.oick.cn/yulu/api.php",
   tocbot: "https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js",
   jinrishici: "https://v1.jinrishici.com/all.json",
   random_image: "https://s1.ax1x.com/2022/12/04/zsKgDs.jpg?",
@@ -18,6 +19,13 @@ export default {
   cryptojs_key: "aoligeimeimaobin",
   qiniuUrl: "https://upload.qiniup.com",
   qiniuDownload: "$$$$七牛云下载地址",
+
+  loveArticle: "https://s1.ax1x.com/2022/12/04/zsKgDs.jpg",
+  loveMessage: "https://s1.ax1x.com/2022/12/04/zsKgDs.jpg",
+  lovePhoto: "https://s1.ax1x.com/2022/12/04/zsKh5V.jpg",
+  loveLike: "https://cdn.cbd.int//hexo-butterfly-envelope/lib/violet.jpg",
+  loveSortId: 1,
+  loveLabelId: 1,
 
   friendBG: "https://s1.ax1x.com/2022/12/04/zsKgDs.jpg",
   friendLetterTop: "https://cdn.cbd.int/hexo-butterfly-envelope/lib/before.png",
@@ -43,5 +51,5 @@ export default {
   userId: 1,
   source: 0,
 
-  emojiList: ['衰', '鄙视', '再见', '捂嘴', '皱眉', '奋斗', '白眼', '可怜', '皱眉', '鼓掌', '烦恼', '吐舌', '挖鼻', '委屈', '滑稽', '啊这', '生气', '害羞', '晕', '好色', '流泪', '吐血', '微笑', '酷', '坏笑', '吓', '大兵', '哭笑', '困', '呲牙']
+  emojiList: ['衰', '鄙视', '再见', '捂嘴', '摸鱼', '奋斗', '白眼', '可怜', '皱眉', '鼓掌', '烦恼', '吐舌', '挖鼻', '委屈', '滑稽', '啊这', '生气', '害羞', '晕', '好色', '流泪', '吐血', '微笑', '酷', '坏笑', '吓', '大兵', '哭笑', '困', '呲牙']
 }

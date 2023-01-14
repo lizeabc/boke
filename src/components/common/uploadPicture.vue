@@ -11,8 +11,8 @@
       :before-upload="beforeUpload"
       :on-success="handleSuccess"
       :on-error="handleError"
-      list-type="picture"
-      accept="image/*"
+      :list-type="listType"
+      :accept="accept"
       :limit="maxNumber"
       :auto-upload="false">
       <div class="el-upload__text">
@@ -26,9 +26,17 @@
         </svg>
         <div>拖拽上传 / 点击上传</div>
       </div>
-      <div slot="tip" class="el-upload__tip">
-        一次最多上传{{maxNumber}}张图片，且每张图片不超过{{maxSize}}M！
-      </div>
+      <template v-if="listType === 'picture'">
+        <div slot="tip" class="el-upload__tip">
+          一次最多上传{{maxNumber}}张图片，且每张图片不超过{{maxSize}}M！
+        </div>
+      </template>
+      <template v-else>
+        <div slot="tip" class="el-upload__tip">
+          一次最多上传{{maxNumber}}个文件，且每个文件不超过{{maxSize}}M！
+        </div>
+      </template>
+
     </el-upload>
 
     <div style="text-align: center;margin-top: 20px">
@@ -49,6 +57,14 @@
       prefix: {
         type: String,
         default: ""
+      },
+      listType: {
+        type: String,
+        default: "picture"
+      },
+      accept: {
+        type: String,
+        default: "image/*"
       },
       maxSize: {
         type: Number,
@@ -105,7 +121,7 @@
       handleSuccess(response, file, fileList) {
         this.qiniuParam.key = "";
         let url = this.$constant.qiniuDownload + response.key;
-        this.$common.saveResource(this, this.prefix, url, this.isAdmin);
+        this.$common.saveResource(this, this.prefix, url, file.size, file.raw.type, this.isAdmin);
         this.$emit("addPicture", url);
       },
       handleError(err, file, fileList) {
@@ -124,7 +140,13 @@
           });
           return false;
         }
-        this.qiniuParam.key = this.prefix + "/" + (!this.$common.isEmpty(this.$store.state.currentUser.username) ? (this.$store.state.currentUser.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.currentUser.id) : (this.$store.state.currentAdmin.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.currentAdmin.id)) + new Date().getTime() + Math.floor(Math.random() * 1000);
+
+        let suffix = "";
+        if (file.name.lastIndexOf('.') !== -1) {
+          suffix = file.name.substring(file.name.lastIndexOf('.'));
+        }
+
+        this.qiniuParam.key = this.prefix + "/" + (!this.$common.isEmpty(this.$store.state.currentUser.username) ? (this.$store.state.currentUser.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.currentUser.id) : (this.$store.state.currentAdmin.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.currentAdmin.id)) + new Date().getTime() + Math.floor(Math.random() * 1000) + suffix;
       },
       // 添加文件、上传成功和上传失败时都会被调用
       handleChange(file, fileList) {

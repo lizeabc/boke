@@ -4,6 +4,7 @@
       <el-image style="animation: header-effect 2s"
                 class="background-image"
                 v-once
+                lazy
                 :src="$constant.random_image+new Date()+Math.floor(Math.random()*10)"
                 fit="cover">
         <div slot="error" class="image-slot background-image-error"></div>
@@ -33,7 +34,7 @@
     </div>
     <div class="comment-wrap">
       <div class="comment-content">
-        <comment :source="$constant.source" :userId="$constant.userId"></comment>
+        <comment :source="$constant.source" :type="'message'" :userId="$constant.userId"></comment>
       </div>
       <myFooter></myFooter>
     </div>

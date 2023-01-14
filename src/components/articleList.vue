@@ -23,6 +23,7 @@
       <div class="recent-post-item-image" :class="{ leftImage: index % 2 !== 0, rightImage: index % 2 === 0 }">
         <el-image class="my-el-image"
                   v-once
+                  lazy
                   :src="!$common.isEmpty(article.articleCover)?article.articleCover:$constant.random_image+new Date()+Math.floor(Math.random()*10)"
                   fit="cover">
           <div slot="error" class="image-slot myCenter" style="background-color: var(--lightGreen)">
@@ -180,7 +181,7 @@
     cursor: pointer;
     overflow: hidden;
     border-radius: 10px;
-    animation: zoomIn 0.8s ease-in-out;
+    animation: hideToShow 1s ease-in-out;
   }
 
   .recent-post-item-image {
@@ -289,7 +290,7 @@
 
     .recent-post-item-image {
       width: 100%;
-      height: 170px;
+      height: 200px;
     }
 
     .leftImage {
@@ -305,8 +306,12 @@
 
     .recent-post-item-post {
       width: 100%;
-      height: 280px;
+      height: 250px;
       position: relative;
+    }
+
+    .recent-post-desc {
+      -webkit-line-clamp: 3;
     }
 
     .leftImage .sort-label {

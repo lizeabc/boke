@@ -80,6 +80,10 @@
           icon: "el-icon-bank-card",
           index: "/resourcePathList",
           title: "资源路径管理"
+        }, {
+          icon: "el-icon-sugar",
+          index: "/loveList",
+          title: "表白墙管理"
         }]
       }
     },

@@ -13,6 +13,7 @@
         <el-image style="animation: header-effect 2s"
                   class="background-image"
                   v-once
+                  lazy
                   :src="!$common.isEmpty($store.state.webInfo.backgroundImage)?$store.state.webInfo.backgroundImage:$constant.random_image+new Date()+Math.floor(Math.random()*10)"
                   fit="cover">
           <div slot="error" class="image-slot background-image-error"></div>

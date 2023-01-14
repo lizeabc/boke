@@ -33,7 +33,7 @@
         <el-form-item label="背景" prop="backgroundImage">
           <div style="display: flex">
             <el-input v-model="webInfo.backgroundImage"></el-input>
-            <el-image class="table-td-thumb"
+            <el-image lazy class="table-td-thumb"
                       style="margin-left: 10px"
                       :preview-src-list="[webInfo.backgroundImage]"
                       :src="webInfo.backgroundImage"
@@ -48,7 +48,7 @@
         <el-form-item label="头像" prop="avatar">
           <div style="display: flex">
             <el-input v-model="webInfo.avatar"></el-input>
-            <el-image class="table-td-thumb"
+            <el-image lazy class="table-td-thumb"
                       style="margin-left: 10px"
                       :preview-src-list="[webInfo.avatar]"
                       :src="webInfo.avatar"
@@ -166,7 +166,7 @@
           {{avatar}}
         </el-tag>
         <div>
-          <el-image class="table-td-thumb"
+          <el-image lazy class="table-td-thumb"
                     style="margin: 10px"
                     :preview-src-list="[avatar]"
                     :src="avatar"
@@ -215,7 +215,7 @@
           {{cover}}
         </el-tag>
         <div>
-          <el-image class="table-td-thumb"
+          <el-image lazy class="table-td-thumb"
                     style="margin: 10px"
                     :preview-src-list="[cover]"
                     :src="cover"
