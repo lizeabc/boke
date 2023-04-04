@@ -144,7 +144,7 @@
       this.setCanvasStyle();
     },
     created() {
-      if (!this.$common.isEmpty(this.$store.state.currentUser) && !this.$common.isEmpty(this.$store.state.currentUser.email)) {
+      if (!this.$common.isEmpty(this.$store.state.currentUser)) {
         this.getUpToken();
       }
     },
@@ -275,7 +275,7 @@
         if (this.preDrawAry.length < 1) {
           this.$message({
             message: "你还没画呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }

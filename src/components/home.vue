@@ -6,7 +6,7 @@
       <div v-show="toolbar.visible"
            @mouseenter="hoverEnter = true"
            @mouseleave="hoverEnter = false"
-           :class="[{ enter: toolbar.enter }, { hoverEnter: hoverEnter && !toolbar.enter }]"
+           :class="[{ enter: toolbar.enter }, { hoverEnter: (hoverEnter || this.$route.path === '/favorite') && !toolbar.enter }]"
            class="toolbar-content myBetween">
         <!-- 网站名称 -->
         <div class="toolbar-title">
@@ -29,18 +29,26 @@
                 🏡 <span>首页</span>
               </div>
             </li>
-            <li v-for="(menu, index) in $store.getters.navigationBar"
-                @click="$router.push({path: '/sort', query: {sortId: menu.id, labelId: menu.labels[0].id}})"
-                :key="index">
-              <div class="my-menu">
-                📒 <span>{{ menu.sortName }}</span>
-              </div>
-            </li>
+
+<!--            <li v-for="(menu, index) in $store.getters.navigationBar"-->
+<!--                @click="$router.push({path: '/sort', query: {sortId: menu.id, labelId: menu.labels[0].id}})"-->
+<!--                :key="index">-->
+<!--              <div class="my-menu">-->
+<!--                📒 <span>{{ menu.sortName }}</span>-->
+<!--              </div>-->
+<!--            </li>-->
 
             <!-- 爱情买卖 -->
             <li @click="$router.push({path: '/love'})">
               <div class="my-menu">
                 💋 <span>爱情买卖</span>
+              </div>
+            </li>
+
+            <!-- 百宝箱 -->
+            <li @click="$router.push({path: '/favorite'})">
+              <div class="my-menu">
+                🧰 <span>百宝箱</span>
               </div>
             </li>
 
@@ -50,10 +58,10 @@
                 💬 <span>非礼勿言</span>
               </div>
             </li>
-            <!-- 鬼畜全明星 -->
+            <!-- 音乐 -->
             <li @click="$router.push({path: '/funny'})">
               <div class="my-menu">
-                🐔 <span>只因</span>
+                🎺 <span>曲乐</span>
               </div>
             </li>
             <!-- 留言 -->
@@ -161,18 +169,26 @@
               🏡 <span>首页</span>
             </div>
           </li>
-          <li v-for="(menu, index) in $store.getters.navigationBar"
-              @click="smallMenu({path: '/sort', query: {sortId: menu.id, labelId: menu.labels[0].id}})"
-              :key="index">
-            <div>
-              📒 <span>{{ menu.sortName }}</span>
-            </div>
-          </li>
+
+<!--          <li v-for="(menu, index) in $store.getters.navigationBar"-->
+<!--              @click="smallMenu({path: '/sort', query: {sortId: menu.id, labelId: menu.labels[0].id}})"-->
+<!--              :key="index">-->
+<!--            <div>-->
+<!--              📒 <span>{{ menu.sortName }}</span>-->
+<!--            </div>-->
+<!--          </li>-->
 
           <!-- 爱情买卖 -->
           <li @click="smallMenu({path: '/love'})">
             <div>
               💋 <span>爱情买卖</span>
+            </div>
+          </li>
+
+          <!-- 百宝箱 -->
+          <li @click="smallMenu({path: '/favorite'})">
+            <div>
+              🧰 <span>百宝箱</span>
             </div>
           </li>
 
@@ -182,10 +198,10 @@
               💬 <span>非礼勿言</span>
             </div>
           </li>
-          <!-- 鬼畜全明星 -->
+          <!-- 音乐 -->
           <li @click="smallMenu({path: '/funny'})">
             <div>
-              🐔 <span>只因</span>
+              🎺 <span>曲乐</span>
             </div>
           </li>
           <!-- 留言 -->
@@ -266,6 +282,7 @@
         root.style.setProperty("--articleFontColor", "#E4E4E4");
         root.style.setProperty("--articleGreyFontColor", "#D4D4D4");
         root.style.setProperty("--commentContent", "#D4D4D4");
+        root.style.setProperty("--favoriteBg", "#1e1e1e");
       }
     },
     destroyed() {
@@ -397,6 +414,7 @@
           root.style.setProperty("--articleFontColor", "#E4E4E4");
           root.style.setProperty("--articleGreyFontColor", "#D4D4D4");
           root.style.setProperty("--commentContent", "#D4D4D4");
+          root.style.setProperty("--favoriteBg", "#1e1e1e");
         } else {
           root.style.setProperty("--background", "white");
           root.style.setProperty("--fontColor", "black");
@@ -405,6 +423,7 @@
           root.style.setProperty("--articleFontColor", "#1F1F1F");
           root.style.setProperty("--articleGreyFontColor", "#616161");
           root.style.setProperty("--commentContent", "#F7F9FE");
+          root.style.setProperty("--favoriteBg", "#f7f9fe");
         }
       },
       toTop() {

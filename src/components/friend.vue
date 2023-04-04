@@ -138,18 +138,10 @@
           return;
         }
 
-        if (this.$common.isEmpty(this.$store.state.currentUser.email)) {
-          this.$message({
-            message: "请先绑定邮箱！",
-            type: "error"
-          });
-          return;
-        }
-
         if (this.friend.title.trim() === "") {
           this.$message({
             message: "你还没写名称呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }
@@ -157,7 +149,7 @@
         if (this.friend.introduction.trim() === "") {
           this.$message({
             message: "你还没写简介呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }
@@ -165,7 +157,7 @@
         if (this.friend.cover.trim() === "") {
           this.$message({
             message: "你还没设置封面呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }
@@ -173,7 +165,7 @@
         if (this.friend.url.trim() === "") {
           this.$message({
             message: "你还没写网址呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }

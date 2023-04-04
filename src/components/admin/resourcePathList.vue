@@ -20,6 +20,7 @@
       <el-table :data="resourcePaths" border class="table" header-cell-class-name="table-header">
         <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
         <el-table-column prop="title" label="标题" align="center"></el-table-column>
+        <el-table-column prop="classify" label="分类" align="center"></el-table-column>
         <el-table-column prop="introduction" label="简介" align="center"></el-table-column>
         <el-table-column label="封面" align="center">
           <template slot-scope="scope">
@@ -97,8 +98,12 @@
         <div>
           <div style="margin-bottom: 5px">标题：</div>
           <el-input maxlength="60" v-model="resourcePath.title"></el-input>
+          <div style="margin-top: 10px;margin-bottom: 5px">分类：</div>
+          <el-input :disabled="!['lovePhoto', 'funny', 'favorites'].includes(resourcePath.type)"
+                    maxlength="30" v-model="resourcePath.classify"></el-input>
           <div style="margin-top: 10px;margin-bottom: 5px">简介：</div>
-          <el-input maxlength="1000" v-model="resourcePath.introduction"></el-input>
+          <el-input :disabled="!['friendUrl', 'favorites'].includes(resourcePath.type)"
+                    maxlength="1000" v-model="resourcePath.introduction"></el-input>
           <div style="margin-top: 10px;margin-bottom: 5px">封面：</div>
           <div style="display: flex">
             <el-input v-model="resourcePath.cover"></el-input>
@@ -112,7 +117,8 @@
           </div>
           <div style="margin-top: 10px;margin-bottom: 5px">链接：</div>
           <div style="display: flex">
-            <el-input v-model="resourcePath.url"></el-input>
+            <el-input :disabled="!['friendUrl', 'funny', 'favorites'].includes(resourcePath.type)"
+                      v-model="resourcePath.url"></el-input>
             <div style="width: 66px;margin: 3.5px 0 0 10px">
               <proButton :info="'上传文件'"
                          @click.native="addResourcePathUrl()"
@@ -131,7 +137,8 @@
             </el-option>
           </el-select>
           <div style="margin-top: 10px;margin-bottom: 5px">备注：</div>
-          <el-input maxlength="1000" v-model="resourcePath.remark" type="textarea"></el-input>
+          <el-input :disabled="![].includes(resourcePath.type)"
+                    maxlength="1000" v-model="resourcePath.remark" type="textarea"></el-input>
         </div>
         <div style="display: flex;margin-top: 30px" class="myCenter">
           <proButton :info="'提交'"
@@ -160,7 +167,8 @@
         resourceTypes: [
           {label: "友链", value: "friendUrl"},
           {label: "恋爱图片", value: "lovePhoto"},
-          {label: "鬼畜", value: "funny"}
+          {label: "音乐", value: "funny"},
+          {label: "收藏夹", value: "favorites"}
         ],
         pagination: {
           current: 1,
@@ -176,6 +184,7 @@
         isUpdate: false,
         resourcePath: {
           title: "",
+          classify: "",
           introduction: "",
           cover: "",
           url: "",
@@ -209,9 +218,9 @@
         if (this.addResourcePathDialog === false) {
           return;
         }
-        if (this.$common.isEmpty(this.resourcePath.type)) {
+        if (!['funny'].includes(this.resourcePath.type)) {
           this.$message({
-            message: "请选择资源类型！",
+            message: "请选择有效资源类型！",
             type: "error"
           });
           return;
@@ -333,6 +342,7 @@
         this.addResourcePathDialog = false;
         this.resourcePath = {
           title: "",
+          classify: "",
           introduction: "",
           cover: "",
           url: "",

@@ -40,7 +40,7 @@
         <div class="page-container-wrap">
           <div class="page-container">
             <div class="aside-content" v-if="showAside">
-              <myAside></myAside>
+              <myAside @selectSort="selectSort"></myAside>
             </div>
             <div class="recent-posts">
               <div class="announcement background-opacity">
@@ -98,7 +98,8 @@
           current: 1,
           size: 10,
           total: 0,
-          searchKey: ""
+          searchKey: "",
+          sortId: null
         },
         guShi: {
           "content": "",
@@ -121,13 +122,31 @@
     },
 
     methods: {
+      async selectSort(sort) {
+        this.pagination = {
+          current: 1,
+          size: 10,
+          total: 0,
+          searchKey: "",
+          sortId: sort.id
+        };
+        this.articles = [];
+        await this.getArticles();
+        this.$nextTick(() => {
+          document.querySelector('.recent-posts').scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+            inline: "nearest"
+          });
+        });
+      },
       pageArticles() {
         this.pagination.current = this.pagination.current + 1;
         this.getArticles();
       },
 
-      getArticles() {
-        this.$http.post(this.$constant.baseURL + "/article/listArticle", this.pagination)
+      async getArticles() {
+        await this.$http.post(this.$constant.baseURL + "/article/listArticle", this.pagination)
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
               this.articles = this.articles.concat(res.data.records);

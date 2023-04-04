@@ -87,7 +87,7 @@
         if (this.messageContent.trim() === "") {
           this.$message({
             message: "你还没写呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }

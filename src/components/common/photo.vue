@@ -15,9 +15,9 @@
       </div>
       <div class="card-body">
         <el-tooltip placement="bottom-start" effect="light">
-          <div slot="content">{{resourcePath.introduction}}</div>
+          <div slot="content">{{resourcePath.title}}</div>
           <div class="card-desc">
-            {{resourcePath.introduction}}
+            {{resourcePath.title}}
           </div>
         </el-tooltip>
         <div class="card-time">

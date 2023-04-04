@@ -42,11 +42,7 @@ export default new Vuex.Store({
     },
     navigationBar: state => {
       if (state.sortInfo !== null && state.sortInfo.length !== 0) {
-        return state.sortInfo.filter(f => {
-          return f.sortType === 0;
-        }).sort((s1, s2) => {
-          return s1.priority - s2.priority;
-        })
+        return state.sortInfo.filter(f => f.sortType === 0);
       } else {
         return [];
       }
@@ -57,7 +53,9 @@ export default new Vuex.Store({
       state.toolbar = toolbarState;
     },
     loadSortInfo(state, sortInfo) {
-      state.sortInfo = sortInfo;
+      if (sortInfo !== null && sortInfo.length !== 0) {
+        state.sortInfo = sortInfo.sort((s1, s2) => s1.priority - s2.priority);
+      }
     },
     loadCurrentUser(state, user) {
       state.currentUser = user;

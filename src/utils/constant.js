@@ -20,7 +20,9 @@ export default {
   qiniuUrl: "https://upload.qiniup.com",
   qiniuDownload: "$$$$七牛云下载地址",
 
-  loveArticle: "https://s1.ax1x.com/2022/12/04/zsKgDs.jpg",
+  favoriteVideo: "$$$$自己找一个视频链接作为百宝箱的封面",
+
+  loveWeiYan: "https://s1.ax1x.com/2022/12/04/zsKgDs.jpg",
   loveMessage: "https://s1.ax1x.com/2022/12/04/zsKgDs.jpg",
   lovePhoto: "https://s1.ax1x.com/2022/12/04/zsKh5V.jpg",
   loveLike: "https://cdn.cbd.int//hexo-butterfly-envelope/lib/violet.jpg",
@@ -45,6 +47,13 @@ export default {
 
   before_color_2: "rgb(131, 123, 199)",
   after_color_2: "linear-gradient(45deg, #f43f3b, #ec008c)",
+
+  sortColor: ["linear-gradient(to right, #358bff, #15c6ff)",
+    "linear-gradient(to right, #18e7ae, #1eebeb)",
+    "linear-gradient(to right, #ff6655, #ffbf37)",
+    "linear-gradient(120deg, rgba(255, 39, 232, 1) 0%, rgba(255, 128, 0, 1) 100%)",
+    "linear-gradient(120deg, rgba(91, 39, 255, 1) 0%, rgba(0, 212, 255, 1) 100%)"
+  ],
 
   pageColor: "#ee7752",
   commentPageColor: "#23d5ab",

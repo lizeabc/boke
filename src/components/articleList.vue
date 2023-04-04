@@ -14,7 +14,7 @@
       </svg>
       发现
     </div>
-    <div class="recent-post-item shadow-box background-opacity wow"
+    <div class="recent-post-item shadow-box background-opacity"
          v-for="(article, index) in articleList"
          :key="index"
          :class="{'my-animation-slide-top': index % 2 !== 0,'my-animation-slide-bottom': index % 2 === 0}"
@@ -49,7 +49,12 @@
           发布于 {{ article.createTime }}
         </div>
         <!-- 标题 -->
-        <h3>{{ article.articleTitle }}</h3>
+
+        <el-tooltip placement="top" effect="light">
+          <div slot="content">{{ article.articleTitle }}</div>
+          <h3>{{ article.articleTitle }}</h3>
+        </el-tooltip>
+
         <!-- 信息 -->
         <div class="post-meta" style="margin-bottom: 15px">
           <span>

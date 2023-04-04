@@ -103,14 +103,6 @@
           return;
         }
 
-        if (this.$common.isEmpty(this.$store.state.currentUser.email)) {
-          this.$message({
-            message: "请先绑定邮箱！",
-            type: "error"
-          });
-          return;
-        }
-
         this.weiYanDialogVisible = true;
       },
       handleClose() {
@@ -138,14 +130,6 @@
         if (this.$common.isEmpty(this.$store.state.currentUser)) {
           this.$message({
             message: "请先登录！",
-            type: "error"
-          });
-          return;
-        }
-
-        if (this.$common.isEmpty(this.$store.state.currentUser.email)) {
-          this.$message({
-            message: "请先绑定邮箱！",
             type: "error"
           });
           return;

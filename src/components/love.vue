@@ -113,7 +113,7 @@
           <div class="card-content shadow-box-mini" @click="changeCard(1)">
             <div>
               <el-avatar :size="100"
-                         :src="$constant.loveArticle">
+                         :src="$constant.loveWeiYan">
               </el-avatar>
             </div>
             <div class="card-right">
@@ -160,24 +160,16 @@
         </div>
 
         <div class="card-container">
-          <div v-show="card === 1 && !$common.isEmpty(articles)">
-            <articleList :articleList="articles"></articleList>
-            <div class="pagination-wrap">
-              <div @click="pageArticles()" class="pagination" v-if="articlePagination.total !== articles.length">
-                下一页
-              </div>
-              <div v-else style="user-select: none">
-                ~~到底啦~~
-              </div>
-            </div>
+          <div v-show="card === 1 && !$common.isEmpty(treeHoleList)">
+            <treeHole :treeHoleList="treeHoleList" @launch="launch" @deleteTreeHole="deleteTreeHole"></treeHole>
           </div>
           <div v-show="card === 2 && !$common.isEmpty(photoTitleList)">
             <!-- 标签 -->
             <div class="photo-title-warp" v-if="!$common.isEmpty(photoTitleList)">
               <div v-for="(item, index) in photoTitleList" :key="index"
-                   :class="{isActive: photoPagination.searchKey === item.title}"
-                   @click="changePhotoTitle(item.title)">
-                <proTag :info="item.title+' '+item.count"
+                   :class="{isActive: photoPagination.classify === item.classify}"
+                   @click="changePhotoTitle(item.classify)">
+                <proTag :info="item.classify+' '+item.count"
                         :color="$constant.before_color_list[Math.floor(Math.random() * 6)]"
                         style="margin: 12px">
                 </proTag>
@@ -185,7 +177,7 @@
             </div>
 
             <div class="photo-title">
-              {{photoPagination.searchKey}}
+              {{photoPagination.classify}}
             </div>
 
             <photo :resourcePathList="photoList"></photo>
@@ -423,7 +415,7 @@
 
 <script>
 
-  const articleList = () => import( "./articleList");
+  const treeHole = () => import( "./common/treeHole");
   const comment = () => import( "./comment/comment");
   const myFooter = () => import( "./common/myFooter");
   const photo = () => import( "./common/photo");
@@ -435,7 +427,7 @@
     components: {
       comment,
       photo,
-      articleList,
+      treeHole,
       myFooter,
       proTag,
       proButton,
@@ -469,21 +461,20 @@
           countdownTime: "",
           timing: ""
         },
-        articlePagination: {
+        weiYanPagination: {
           current: 1,
           size: 10,
           total: 0,
-          sortId: this.$constant.loveSortId,
-          labelId: this.$constant.loveLabelId
+          userId: this.$constant.userId
         },
         photoPagination: {
           current: 1,
           size: 10,
           total: 0,
           resourceType: "lovePhoto",
-          searchKey: ""
+          classify: ""
         },
-        articles: [],
+        treeHoleList: [],
         photoTitleList: [],
         photoList: [],
         randomFamily: [],
@@ -506,6 +497,8 @@
 
     created() {
       this.getAdminFamily();
+      this.card = 1;
+      this.getWeiYan();
     },
 
     mounted() {
@@ -533,7 +526,7 @@
         if (this.userLove.bgCover.trim() === "") {
           this.$message({
             message: "你还没设置背景封面呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }
@@ -541,7 +534,7 @@
         if (this.userLove.manCover.trim() === "") {
           this.$message({
             message: "你还没设置男生头像呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }
@@ -549,7 +542,7 @@
         if (this.userLove.womanCover.trim() === "") {
           this.$message({
             message: "你还没设置女生头像呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }
@@ -557,7 +550,7 @@
         if (this.userLove.manName.trim() === "") {
           this.$message({
             message: "你还没写男生昵称呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }
@@ -565,7 +558,7 @@
         if (this.userLove.womanName.trim() === "") {
           this.$message({
             message: "你还没写女生昵称呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }
@@ -573,7 +566,7 @@
         if (this.userLove.timing.trim() === "") {
           this.$message({
             message: "你还没设置计时时间呢~",
-            type: "warning",
+            type: "warning"
           });
           return;
         }
@@ -598,14 +591,6 @@
         if (this.$common.isEmpty(this.$store.state.currentUser)) {
           this.$message({
             message: "请先登录！",
-            type: "error"
-          });
-          return;
-        }
-
-        if (this.$common.isEmpty(this.$store.state.currentUser.email)) {
-          this.$message({
-            message: "请先绑定邮箱！",
             type: "error"
           });
           return;
@@ -639,7 +624,7 @@
                 size: 10,
                 total: 0,
                 resourceType: "lovePhoto",
-                searchKey: this.photoTitleList[0].title
+                classify: this.photoTitleList[0].classify
               };
               this.changePhoto();
             }
@@ -686,14 +671,14 @@
             });
           });
       },
-      changePhotoTitle(title) {
-        if (title !== this.photoPagination.searchKey) {
+      changePhotoTitle(classify) {
+        if (classify !== this.photoPagination.classify) {
           this.photoPagination = {
             current: 1,
             size: 10,
             total: 0,
             resourceType: "lovePhoto",
-            searchKey: title
+            classify: classify
           };
           this.photoList = [];
           this.changePhoto();
@@ -728,8 +713,8 @@
         }
 
         if (card === 1) {
-          if (this.$common.isEmpty(this.articles)) {
-            this.getArticles();
+          if (this.$common.isEmpty(this.treeHoleList)) {
+            this.getWeiYan();
           }
         } else if (card === 2) {
           if (this.$common.isEmpty(this.photoTitleList)) {
@@ -760,16 +745,29 @@
         let countdown = this.$common.countdown(this.love.countdownTime);
         this.countdownChange = countdown.d + "天" + countdown.h + "时" + countdown.m + "分" + countdown.s + "秒";
       },
-      pageArticles() {
-        this.articlePagination.current = this.articlePagination.current + 1;
-        this.getArticles();
+      launch() {
+        if (this.weiYanPagination.total !== this.treeHoleList.length) {
+          this.weiYanPagination.current = this.weiYanPagination.current + 1;
+          this.getWeiYan();
+        } else {
+          this.$message({
+            message: "~~到底啦~~",
+            type: "warning"
+          });
+        }
       },
-      getArticles() {
-        this.$http.post(this.$constant.baseURL + "/article/listArticle", this.articlePagination)
+      getWeiYan() {
+        this.$http.post(this.$constant.baseURL + "/weiYan/listWeiYan", this.weiYanPagination)
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
-              this.articles = this.articles.concat(res.data.records);
-              this.articlePagination.total = res.data.total;
+              res.data.records.forEach(c => {
+                c.content = c.content.replace(/\n{2,}/g, '<div style="height: 12px"></div>');
+                c.content = c.content.replace(/\n/g, '<br/>');
+                c.content = this.$common.faceReg(c.content);
+                c.content = this.$common.pictureReg(c.content);
+              });
+              this.treeHoleList = this.treeHoleList.concat(res.data.records);
+              this.weiYanPagination.total = res.data.total;
             }
           })
           .catch((error) => {
@@ -778,6 +776,43 @@
               type: "error"
             });
           });
+      },
+      deleteTreeHole(id) {
+        if (this.$common.isEmpty(this.$store.state.currentUser)) {
+          this.$message({
+            message: "请先登录！",
+            type: "error"
+          });
+          return;
+        }
+
+        this.$confirm('确认删除？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'success',
+          center: true
+        }).then(() => {
+          this.$http.get(this.$constant.baseURL + "/weiYan/deleteWeiYan", {id: id})
+            .then((res) => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              this.weiYanPagination.current = 1;
+              this.getWeiYan();
+            })
+            .catch((error) => {
+              this.$message({
+                message: error.message,
+                type: "error"
+              });
+            });
+        }).catch(() => {
+          this.$message({
+            type: 'success',
+            message: '已取消删除!'
+          });
+        });
       }
     }
   }
@@ -1191,6 +1226,10 @@
 
     .user-content >>> .el-input__inner {
       width: 190px;
+    }
+
+    .card-container .tree-hole-container {
+      padding: 0;
     }
   }
 

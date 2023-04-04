@@ -439,16 +439,6 @@
         return true;
       },
       changeDialog(value) {
-        if (value === "修改头像") {
-          if (this.$common.isEmpty(this.currentUser.email)) {
-            this.$message({
-              message: "请先绑定邮箱！",
-              type: "error"
-            });
-            return;
-          }
-        }
-
         if (value === "邮箱验证码") {
           if (this.$common.isEmpty(this.email)) {
             this.$message({

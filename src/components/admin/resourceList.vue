@@ -16,11 +16,12 @@
           <el-option key="11" label="聊天群头像" value="im/groupAvatar"></el-option>
           <el-option key="12" label="群聊天图片" value="im/groupMessage"></el-option>
           <el-option key="13" label="朋友聊天图片" value="im/friendMessage"></el-option>
-          <el-option key="14" label="Funny声音" value="funnyUrl"></el-option>
-          <el-option key="15" label="Funny封面" value="funnyCover"></el-option>
+          <el-option key="14" label="音乐声音" value="funnyUrl"></el-option>
+          <el-option key="15" label="音乐封面" value="funnyCover"></el-option>
           <el-option key="16" label="Love.Cover" value="love/bgCover"></el-option>
           <el-option key="17" label="Love.Man" value="love/manCover"></el-option>
           <el-option key="18" label="Love.Woman" value="love/womanCover"></el-option>
+          <el-option key="19" label="收藏夹封面" value="favoritesCover"></el-option>
         </el-select>
         <el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>
         <el-button type="primary" @click="addResources()">新增资源</el-button>

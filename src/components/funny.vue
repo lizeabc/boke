@@ -43,10 +43,10 @@
                   fill="#2E66FF"></path>
               </svg>
             </span>
-            <span class="funny-title">{{index + 1}}号选手：{{item.title}}</span>
+            <span class="funny-title">{{index + 1}}号选手：{{item.classify}}</span>
           </div>
           <div class="process-wrap">
-            <el-collapse v-model="activeName" accordion @change="changeFunny(item.title)">
+            <el-collapse v-model="activeName" accordion @change="changeFunny(item.classify)">
               <el-collapse-item title="笑梗不笑人" :name="index">
                 <div class="my-animation-slide-bottom"
                      style="display: flex;flex-flow: wrap;margin-left: 20px"
@@ -57,7 +57,7 @@
                                @click.native="playSound(funny.url)"
                                :src="funny.cover">
                     </el-avatar>
-                    <div class="funny-item-title">{{funny.introduction}}</div>
+                    <div class="funny-item-title">{{funny.title}}</div>
                   </div>
                 </div>
               </el-collapse-item>
@@ -88,26 +88,26 @@
         pagination: {
           current: 1,
           size: 9999,
-          order: "introduction",
+          order: "title",
           desc: false,
           resourceType: "funny",
-          searchKey: ""
+          classify: ""
         },
         activeName: 0,
         audio: null,
         funnys: [{
-          title: "",
+          classify: "",
           count: null,
           data: [{
-            title: "",
+            classify: "",
             cover: "",
             url: "",
-            introduction: ""
+            title: ""
           }]
         }],
         funny: {
+          classify: "",
           title: "",
-          introduction: "",
           cover: "",
           url: ""
         }
@@ -132,7 +132,7 @@
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
               this.funnys = res.data;
-              this.changeFunny(this.funnys[0].title);
+              this.changeFunny(this.funnys[0].classify);
             }
           })
           .catch((error) => {
@@ -147,13 +147,13 @@
           .then((res) => {
             if (!this.$common.isEmpty(res.data) && !this.$common.isEmpty(res.data.records)) {
               this.funnys.forEach(funny => {
-                if (funny.title === this.pagination.searchKey) {
+                if (funny.classify === this.pagination.classify) {
                   funny.data = res.data.records;
                   this.$forceUpdate();
                 }
               });
             }
-            this.pagination.searchKey = "";
+            this.pagination.classify = "";
           })
           .catch((error) => {
             this.$message({
@@ -162,10 +162,10 @@
             });
           });
       },
-      changeFunny(title) {
+      changeFunny(classify) {
         this.funnys.forEach(funny => {
-          if (funny.title === title && this.$common.isEmpty(funny.data)) {
-            this.pagination.searchKey = title;
+          if (funny.classify === classify && this.$common.isEmpty(funny.data)) {
+            this.pagination.classify = classify;
             this.listFunny();
           }
         });
