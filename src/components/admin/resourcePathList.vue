@@ -70,7 +70,7 @@
                destroy-on-close
                center>
       <div>
-        <uploadPicture :isAdmin="true" :prefix="resourcePath.type" @addPicture="addPicture" :maxSize="5"
+        <uploadPicture :isAdmin="true" :prefix="resourcePath.type + 'Cover'" @addPicture="addPicture" :maxSize="5"
                        :maxNumber="1"></uploadPicture>
       </div>
     </el-dialog>

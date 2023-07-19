@@ -6,7 +6,7 @@
       <div v-show="toolbar.visible"
            @mouseenter="hoverEnter = true"
            @mouseleave="hoverEnter = false"
-           :class="[{ enter: toolbar.enter }, { hoverEnter: (hoverEnter || this.$route.path === '/favorite') && !toolbar.enter }]"
+           :class="[{ enter: toolbar.enter }, { hoverEnter: (hoverEnter || this.$route.path === '/favorite' || this.$route.path === '/travel') && !toolbar.enter }]"
            class="toolbar-content myBetween">
         <!-- 网站名称 -->
         <div class="toolbar-title">
@@ -42,6 +42,13 @@
             <li @click="$router.push({path: '/love'})">
               <div class="my-menu">
                 💋 <span>爱情买卖</span>
+              </div>
+            </li>
+
+            <!-- 旅拍 -->
+            <li @click="$router.push({path: '/travel'})">
+              <div class="my-menu">
+                🌏 <span>旅拍</span>
               </div>
             </li>
 
@@ -182,6 +189,13 @@
           <li @click="smallMenu({path: '/love'})">
             <div>
               💋 <span>爱情买卖</span>
+            </div>
+          </li>
+
+          <!-- 旅拍 -->
+          <li @click="smallMenu({path: '/travel'})">
+            <div>
+              🌏 <span>旅拍</span>
             </div>
           </li>
 

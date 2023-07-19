@@ -19,6 +19,37 @@
       </a>
     </div>
 
+    <!-- 推荐文章 -->
+    <div v-if="!$common.isEmpty(recommendArticles)"
+         style="padding: 25px;border-radius: 10px;margin-top: 40px;animation: hideToShow 1s ease-in-out"
+         class="shadow-box background-opacity wow">
+      <div class="card-content2-title">
+        <i class="el-icon-reading card-content2-icon"></i>
+        <span>推荐文章</span>
+      </div>
+      <div v-for="(article, index) in recommendArticles"
+           :key="index"
+           @click="$router.push({path: '/article', query: {id: article.id}})">
+        <div class="aside-post-detail">
+          <div class="aside-post-image">
+            <el-image lazy class="my-el-image" :src="article.articleCover" fit="cover">
+              <div slot="error" class="image-slot">
+                <div class="error-aside-image">
+                  {{article.username}}
+                </div>
+              </div>
+            </el-image>
+          </div>
+          <div class="aside-post-title">
+            {{ article.articleTitle }}
+          </div>
+        </div>
+        <div class="aside-post-date">
+          <i class="el-icon-date" style="color: var(--greyFont)"></i>{{ article.createTime }}
+        </div>
+      </div>
+    </div>
+
     <!-- 赞赏 -->
     <div class="shadow-box-mini background-opacity wow admire-box"
          v-if="!$common.isEmpty(admires)">
@@ -74,37 +105,6 @@
            @click="$router.push({path: '/sort', query: {sortId: sort.id}})">
         <div>
           <span v-for="(s, i) in sort.sortName.split('')" :key="i">{{ s }}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 推荐文章 -->
-    <div v-if="!$common.isEmpty(recommendArticles)"
-         style="padding: 25px;border-radius: 10px;margin-top: 40px;animation: hideToShow 1s ease-in-out"
-         class="shadow-box background-opacity wow">
-      <div class="card-content2-title">
-        <i class="el-icon-reading card-content2-icon"></i>
-        <span>推荐文章</span>
-      </div>
-      <div v-for="(article, index) in recommendArticles"
-           :key="index"
-           @click="$router.push({path: '/article', query: {id: article.id}})">
-        <div class="aside-post-detail">
-          <div class="aside-post-image">
-            <el-image lazy class="my-el-image" :src="article.articleCover" fit="cover">
-              <div slot="error" class="image-slot">
-                <div class="error-aside-image">
-                  {{article.username}}
-                </div>
-              </div>
-            </el-image>
-          </div>
-          <div class="aside-post-title">
-            {{ article.articleTitle }}
-          </div>
-        </div>
-        <div class="aside-post-date">
-          <i class="el-icon-date" style="color: var(--greyFont)"></i>{{ article.createTime }}
         </div>
       </div>
     </div>
