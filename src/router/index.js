@@ -68,10 +68,14 @@ const routes = [
   },
   {
     path: '/admin',
-    redirect: '/main',
+    redirect: '/welcome',
     meta: {requiresAuth: true},
     component: () => import('../components/admin/admin'),
     children: [{
+      path: '/welcome',
+      name: 'welcome',
+      component: () => import('../components/admin/welcome')
+    }, {
       path: '/main',
       name: 'main',
       component: () => import('../components/admin/main')

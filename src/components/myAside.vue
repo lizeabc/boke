@@ -13,10 +13,37 @@
           <span>分类</span>
           <span class="blog-info-num">{{ sortInfo.length }}</span>
         </div>
+        <div class="blog-info-box">
+          <span>访问量</span>
+          <span class="blog-info-num">{{ webInfo.historyAllCount }}</span>
+        </div>
       </div>
       <a class="collection-btn" @click="showTip()">
         <i class="el-icon-star-off" style="margin-right: 2px"></i>朋友圈
       </a>
+    </div>
+
+    <!-- 搜索 -->
+    <div style="padding: 15px;border-radius: 10px;margin-top: 40px;animation: hideToShow 1s ease-in-out"
+         class="shadow-box background-opacity wow">
+      <div style="color: var(--lightGreen);font-size: 20px;font-weight: bold;margin-bottom: 10px">
+        搜索
+      </div>
+      <div style="display: flex">
+        <input class="ais-SearchBox-input" type="text"
+               v-model="articleSearch"
+               placeholder="搜索文章" maxlength="32">
+        <div class="ais-SearchBox-submit" @click="selectArticle()">
+          <svg style="margin-top: 3.5px;margin-left: 18px" viewBox="0 0 1024 1024" width="20" height="20">
+            <path
+              d="M51.2 508.8c0 256.8 208 464.8 464.8 464.8s464.8-208 464.8-464.8-208-464.8-464.8-464.8-464.8 208-464.8 464.8z"
+              fill="#51C492"></path>
+            <path
+              d="M772.8 718.4c48-58.4 76.8-132.8 76.8-213.6 0-186.4-151.2-337.6-337.6-337.6-186.4 0-337.6 151.2-337.6 337.6 0 186.4 151.2 337.6 337.6 337.6 81.6 0 156-28.8 213.6-76.8L856 896l47.2-47.2-130.4-130.4zM512 776c-149.6 0-270.4-121.6-270.4-271.2S363.2 233.6 512 233.6c149.6 0 271.2 121.6 271.2 271.2C782.4 654.4 660.8 776 512 776z"
+              fill="#FFFFFF"></path>
+          </svg>
+        </div>
+      </div>
     </div>
 
     <!-- 推荐文章 -->
@@ -143,7 +170,8 @@
         },
         recommendArticles: [],
         admires: [],
-        showAdmireDialog: false
+        showAdmireDialog: false,
+        articleSearch: ""
       }
     },
     computed: {
@@ -161,6 +189,9 @@
     methods: {
       selectSort(sort) {
         this.$emit("selectSort", sort);
+      },
+      selectArticle() {
+        this.$emit("selectArticle", this.articleSearch);
       },
       showAdmire() {
         if (this.$common.isEmpty(this.$store.state.currentUser)) {
@@ -405,4 +436,27 @@
     line-height: 1.5;
     margin: 5px;
   }
+
+  .ais-SearchBox-input {
+    padding: 0 14px;
+    height: 30px;
+    width: calc(100% - 50px);
+    outline: 0;
+    border: 2px solid var(--lightGreen);
+    border-right: 0;
+    border-radius: 40px 0 0 40px;
+    color: var(--maxGreyFont);
+    background: var(--white);
+  }
+
+  .ais-SearchBox-submit {
+    height: 30px;
+    width: 50px;
+    border: 2px solid var(--lightGreen);
+    border-left: 0;
+    border-radius: 0 40px 40px 0;
+    background: var(--white);
+    cursor: pointer;
+  }
+
 </style>

@@ -40,7 +40,7 @@
         <div class="page-container-wrap">
           <div class="page-container">
             <div class="aside-content" v-if="showAside">
-              <myAside @selectSort="selectSort"></myAside>
+              <myAside @selectSort="selectSort" @selectArticle="selectArticle"></myAside>
             </div>
             <div class="recent-posts">
               <div class="announcement background-opacity">
@@ -99,7 +99,8 @@
           size: 10,
           total: 0,
           searchKey: "",
-          sortId: null
+          sortId: null,
+          articleSearch: ""
         },
         guShi: {
           "content": "",
@@ -128,7 +129,27 @@
           size: 10,
           total: 0,
           searchKey: "",
-          sortId: sort.id
+          sortId: sort.id,
+          articleSearch: ""
+        };
+        this.articles = [];
+        await this.getArticles();
+        this.$nextTick(() => {
+          document.querySelector('.recent-posts').scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+            inline: "nearest"
+          });
+        });
+      },
+      async selectArticle(articleSearch) {
+        this.pagination = {
+          current: 1,
+          size: 10,
+          total: 0,
+          searchKey: "",
+          sortId: null,
+          articleSearch: articleSearch
         };
         this.articles = [];
         await this.getArticles();

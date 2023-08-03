@@ -161,7 +161,11 @@
 
         <div class="card-container">
           <div v-show="card === 1 && !$common.isEmpty(treeHoleList)">
-            <treeHole :treeHoleList="treeHoleList" @launch="launch" @deleteTreeHole="deleteTreeHole"></treeHole>
+            <treeHole :treeHoleList="treeHoleList"
+                      :avatar="$store.state.webInfo.avatar"
+                      @launch="launch"
+                      @deleteTreeHole="deleteTreeHole">
+            </treeHole>
           </div>
           <div v-show="card === 2 && !$common.isEmpty(photoTitleList)">
             <!-- 标签 -->

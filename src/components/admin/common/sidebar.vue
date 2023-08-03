@@ -1,7 +1,6 @@
 <template>
   <div class="sidebar">
     <el-menu class="sidebar-el-menu"
-             default-active="/main"
              background-color="#ebf1f6"
              text-color="#606266"
              active-text-color="#20a0ff"

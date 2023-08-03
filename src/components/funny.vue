@@ -54,7 +54,7 @@
                   <div style="width: 150px" v-for="(funny, i) in item.data" :key="i">
                     <el-avatar class="funny-avatar myCenter" :size="110"
                                style="margin: 20px"
-                               @click.native="playSound(funny.url)"
+                               @click.native="playSound(funny.url, item.data, i)"
                                :src="funny.cover">
                     </el-avatar>
                     <div class="funny-item-title">{{funny.title}}</div>
@@ -95,6 +95,8 @@
         },
         activeName: 0,
         audio: null,
+        playList: null,
+        index: null,
         funnys: [{
           classify: "",
           count: null,
@@ -124,6 +126,12 @@
 
     mounted() {
 
+    },
+
+    beforeDestroy() {
+      if (this.audio != null && !this.audio.paused) {
+        this.audio.pause();
+      }
     },
 
     methods: {
@@ -170,7 +178,9 @@
           }
         });
       },
-      playSound(src) {
+      playSound(src, playList, index) {
+        this.playList = playList;
+        this.index = index;
         if (this.audio != null) {
           if (this.audio.src === src) {
             if (this.audio.paused) {
@@ -187,6 +197,16 @@
         } else {
           this.audio = new Audio(src);
           this.audio.play();
+          this.audio.onended = () => {
+            this.index = this.index + 1;
+            if (this.index < this.playList.length) {
+              this.audio.src = this.playList[this.index].url;
+              this.audio.load();
+              setTimeout(() => {
+                this.audio.play();
+              }, 3000);
+            }
+          };
         }
       }
     }
