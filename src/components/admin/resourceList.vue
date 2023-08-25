@@ -3,6 +3,7 @@
     <div>
       <div class="handle-box">
         <el-select clearable v-model="pagination.resourceType" placeholder="资源类型" class="handle-select mrb10">
+          <el-option key="20" label="公共资源" value="assets"></el-option>
           <el-option key="10" label="表情包" value="internetMeme"></el-option>
           <el-option key="1" label="用户头像" value="userAvatar"></el-option>
           <el-option key="2" label="文章封面" value="articleCover"></el-option>

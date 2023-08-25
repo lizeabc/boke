@@ -18,7 +18,7 @@ export default {
   //前后端定义的密钥，AES使用16位
   cryptojs_key: "aoligeimeimaobin",
   qiniuUrl: "https://upload.qiniup.com",
-  qiniuDownload: "$$$$七牛云下载地址",
+  qiniuDownload: "$$$$七牛云下载地址，仿照【https://file.poetize.cn/】",
 
   favoriteVideo: "$$$$自己找一个视频链接作为百宝箱的封面",
 

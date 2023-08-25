@@ -23,8 +23,6 @@
     /* 主题悬停背景 */
     --gradualRed: linear-gradient(to right, #ff4b2b, #ff416c);
 
-    /* 水波纹 */
-    --rippleColor: rgba(0, 0, 0, 0.5);
     /* 导航栏字体 */
     --toolbarFont: #333333;
     /* 导航栏背景 */

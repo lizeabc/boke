@@ -105,7 +105,6 @@
     data() {
       return {
         id: this.$route.query.id,
-        token: "",
         article: {
           articleTitle: "",
           articleContent: "",
@@ -164,7 +163,6 @@
 
     created() {
       this.getSortAndLabel();
-      this.getUpToken();
     },
 
     mounted() {
@@ -172,45 +170,35 @@
     },
 
     methods: {
-      getUpToken() {
-        this.$http.get(this.$constant.baseURL + "/qiniu/getUpToken", {}, true)
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.token = res.data;
-            }
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-      },
       imgAdd(pos, file) {
-        if (this.$common.isEmpty(this.token)) {
-          this.$message({
-            message: "上传出错！",
-            type: "warning"
-          });
-          return;
-        }
-
         let suffix = "";
         if (file.name.lastIndexOf('.') !== -1) {
           suffix = file.name.substring(file.name.lastIndexOf('.'));
         }
-
+        let key = "articlePicture" + "/" + this.$store.state.currentAdmin.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.currentAdmin.id + new Date().getTime() + Math.floor(Math.random() * 1000) + suffix;
         let fd = new FormData();
         fd.append("file", file);
-        fd.append("token", this.token);
-        fd.append("key", "articlePicture" + "/" + this.$store.state.currentAdmin.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.currentAdmin.id + new Date().getTime() + Math.floor(Math.random() * 1000) + suffix);
+        fd.append("key", key);
 
-        this.$http.uploadQiniu(this.$constant.qiniuUrl, fd)
+        this.$http.get(this.$constant.baseURL + "/qiniu/getUpToken", {key: key}, true)
           .then((res) => {
-            if (!this.$common.isEmpty(res.key)) {
-              let url = this.$constant.qiniuDownload + res.key;
-              this.$common.saveResource(this, "articlePicture", url, file.size, file.type, true);
-              this.$refs.md.$img2Url(pos, url);
+            if (!this.$common.isEmpty(res.data)) {
+              fd.append("token", res.data);
+
+              this.$http.uploadQiniu(this.$constant.qiniuUrl, fd)
+                .then((res) => {
+                  if (!this.$common.isEmpty(res.key)) {
+                    let url = this.$constant.qiniuDownload + res.key;
+                    this.$common.saveResource(this, "articlePicture", url, file.size, file.type, true);
+                    this.$refs.md.$img2Url(pos, url);
+                  }
+                })
+                .catch((error) => {
+                  this.$message({
+                    message: error.message,
+                    type: "error"
+                  });
+                });
             }
           })
           .catch((error) => {
